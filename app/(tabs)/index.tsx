@@ -1,12 +1,56 @@
 import Ionicons from "@expo/vector-icons/Ionicons";
 import { StyleSheet, Text, TouchableOpacity, View } from "react-native";
 import { useRouter } from "expo-router";
+import { useEffect, useState } from "react";
+import { getMemos } from "@/services/memo-storage";
+import { Memo } from "@/types/memo";
+import { useFocusEffect } from "@react-navigation/native";
+import React from "react";
 
 export default function Index() {
   const router = useRouter();
+  const [memos, setMemos] = useState<Memo[]>([]);
+  const [isLoading, setIsLoading] = useState(true);
+
+  useFocusEffect(
+    React.useCallback(() => {
+      setIsLoading(true);
+      const fetchMemos = async () => {
+        const fetchedMemos = await getMemos();
+        setMemos(fetchedMemos);
+      };
+      fetchMemos();
+      setIsLoading(false);
+    }, [])
+  );
+
   return (
     <View style={styles.container}>
-      <Text>Memo</Text>
+      {isLoading ? (
+        <Text>Loading</Text>
+      ) : (
+        <>
+          {memos.map((memo) => {
+            return (
+              <TouchableOpacity
+                key={memo.id}
+                onPress={() => {
+                  router.push({
+                    pathname: "/add-memo",
+                    params: {
+                      id: memo.id,
+                    },
+                  });
+                }}
+              >
+                <View style={styles.memoList}>
+                  <Text>{memo.title}</Text>
+                </View>
+              </TouchableOpacity>
+            );
+          })}
+        </>
+      )}
       <TouchableOpacity
         style={styles.fab}
         onPress={() => router.push("/add-memo")}
@@ -20,6 +64,16 @@ export default function Index() {
 const styles = StyleSheet.create({
   container: {
     height: "100%",
+    display: "flex",
+  },
+  memoList: {
+    display: "flex",
+    flexDirection: "row",
+    alignItems: "center",
+    height: 40,
+    borderBottomWidth: 1,
+    borderBottomColor: "#ccc",
+    paddingHorizontal: 16,
   },
   fab: {
     position: "absolute",
