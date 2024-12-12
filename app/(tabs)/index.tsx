@@ -52,12 +52,6 @@ export default function Index() {
           })}
         </>
       )}
-      {/* <TouchableOpacity
-        style={styles.fab}
-        onPress={() => router.push("/add-memo")}
-      >
-        <Ionicons name="add" size={32} color="white" />
-      </TouchableOpacity> */}
       <Fab onPress={() => router.push("/add-memo")} />
     </View>
   );

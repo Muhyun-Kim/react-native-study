@@ -41,7 +41,6 @@ export default function AddMemoScreen() {
       }
     };
     fetchMemo();
-    console.log(title);
   }, [id]);
 
   const onClickSave = async () => {
