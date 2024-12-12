@@ -15,11 +15,13 @@ import {
   Text,
   TouchableOpacity,
 } from "react-native";
+import { colors } from "@/lib/color";
 
 export default function AddMemoScreen() {
   const navigation = useNavigation();
 
   const [title, setTitle] = useState("");
+  const [prevTitle, setPrevTitle] = useState("新しいメモ");
   const [detail, setDetail] = useState("");
   const [date, setDate] = useState("");
   const params = useLocalSearchParams();
@@ -32,6 +34,7 @@ export default function AddMemoScreen() {
         console.log(memo);
         if (memo) {
           setTitle(memo.title);
+          setPrevTitle(memo.title);
           setDetail(memo.detail);
           setDate(memo.date);
         }
@@ -57,17 +60,24 @@ export default function AddMemoScreen() {
 
   useEffect(() => {
     navigation.setOptions({
+      title: prevTitle,
       headerRight: () => (
         <>
           {id !== 0 && (
             <TouchableOpacity onPress={() => onClickDelete(id)}>
-              <Text style={{ color: "#FF8000", fontSize: 16, marginRight: 16 }}>
+              <Text
+                style={{
+                  color: colors.secondary,
+                  fontSize: 16,
+                  marginRight: 16,
+                }}
+              >
                 削除
               </Text>
             </TouchableOpacity>
           )}
           <TouchableOpacity onPress={onClickSave} style={{ marginRight: 16 }}>
-            <Text style={{ color: "#007AFF", fontSize: 16 }}>保存</Text>
+            <Text style={{ color: colors.primary, fontSize: 16 }}>保存</Text>
           </TouchableOpacity>
         </>
       ),
@@ -79,8 +89,8 @@ export default function AddMemoScreen() {
       <TextInput
         style={styles.titleInput}
         placeholder="タイトル"
-        onChangeText={setTitle}
         value={title}
+        onChangeText={setTitle}
       />
       <TextInput
         style={styles.detailInput}

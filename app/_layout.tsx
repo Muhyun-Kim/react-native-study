@@ -8,7 +8,12 @@ export default function RootLayout() {
       <Stack.Screen
         name="add-memo"
         options={{
-          title: "新しいメモ",
+          headerBackTitle: "戻る",
+        }}
+      />
+      <Stack.Screen
+        name="add-todo"
+        options={{
           headerBackTitle: "戻る",
         }}
       />

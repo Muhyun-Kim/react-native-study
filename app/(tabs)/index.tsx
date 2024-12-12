@@ -1,11 +1,12 @@
-import Ionicons from "@expo/vector-icons/Ionicons";
 import { StyleSheet, Text, TouchableOpacity, View } from "react-native";
 import { useRouter } from "expo-router";
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import { getMemos } from "@/services/memo-storage";
 import { Memo } from "@/types/memo";
 import { useFocusEffect } from "@react-navigation/native";
 import React from "react";
+import { colors } from "@/lib/color";
+import { Fab } from "@/components/btn";
 
 export default function Index() {
   const router = useRouter();
@@ -51,12 +52,13 @@ export default function Index() {
           })}
         </>
       )}
-      <TouchableOpacity
+      {/* <TouchableOpacity
         style={styles.fab}
         onPress={() => router.push("/add-memo")}
       >
         <Ionicons name="add" size={32} color="white" />
-      </TouchableOpacity>
+      </TouchableOpacity> */}
+      <Fab onPress={() => router.push("/add-memo")} />
     </View>
   );
 }
@@ -72,23 +74,7 @@ const styles = StyleSheet.create({
     alignItems: "center",
     height: 40,
     borderBottomWidth: 1,
-    borderBottomColor: "#ccc",
+    borderBottomColor: colors.gray,
     paddingHorizontal: 16,
-  },
-  fab: {
-    position: "absolute",
-    bottom: 20,
-    right: 20,
-    width: 60,
-    height: 60,
-    backgroundColor: "#007AFF",
-    borderRadius: 30,
-    justifyContent: "center",
-    alignItems: "center",
-    elevation: 5,
-    shadowColor: "#000",
-    shadowOffset: { width: 0, height: 2 },
-    shadowOpacity: 0.3,
-    shadowRadius: 4,
   },
 });
